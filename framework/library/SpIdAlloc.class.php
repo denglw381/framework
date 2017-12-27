@@ -2,14 +2,15 @@
 //还有一个分支是redisSwitch＝0,则表示以db为
 class SpIdAlloc{
         var $config = [];
+        var $_dao = null;
 
         function _init($name = "id"){
                 $this->_dao = spDb('tbl_id_alloc');
-                        $this->config = [
-                                'maxnum' => 1024,
-                                'minnum' => 1,
-                                'start' => '1000000000'
-               ];
+                $this->config = [
+                        'maxnum' => 1024,
+                        'minnum' => 1,
+                        'start' => '10000000'
+                ];
         }
 
         function getId($name = "id"){
@@ -34,5 +35,5 @@ class SpIdAlloc{
                 if(false == $ret) $this->_dao->rollBack();
                 $this->_dao->commit();
                 return $id;
-      }
+        }
 }
