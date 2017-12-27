@@ -6,8 +6,15 @@ define("SP_PATH",	WEB_ROOT.'/../framework');
 $spConfig = require_once( WEB_ROOT.'/../config/main.php');
 require_once SP_PATH.DIRECTORY_SEPARATOR.'framework.php';
 if(!defined('IN_CMS'))
+try{
 spRun(); 
+while(1){
+        echo library('SpIdAlloc')->getId('userid');
+}
+
 if(function_exists('xhprof_run')) xhprof_run();
+}catch(Exception $e){
+}
 /*
 $xhprof_data = xhprof_disable();
 include_once "xhprof_lib.php";

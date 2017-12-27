@@ -169,5 +169,19 @@ class db_pdo {
 	{
 		return $this->conn;
 	}
+
+
+    function beginTransaction(){
+        return $this->conn->beginTransaction();
+    }
+
+    function rollBack(){
+        return $this->conn->rollBack();
+    }
+
+    function commit(){
+        return $this->conn->commit();
+    }
+
 }
 

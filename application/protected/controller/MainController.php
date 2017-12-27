@@ -7,7 +7,7 @@ class MainController extends BaseController
 {
 	#获取主记录总数
 	function indexAction(){
-        $this->jump(spUrl('admin/music/online'));
+        //$this->jump(spUrl('admin/music/online'));
         //    $this->display();
 	}
 

@@ -129,6 +129,19 @@ class spModel {
 		if(null != $limit)$sql = $this->_db->setlimit($sql, $limit);
 		return $this->_db->getArray($sql);
 	}
+
+    function beginTransaction(){
+        return $this->_db->beginTransaction();
+    }
+
+    function rollBack(){
+        return $this->_db->rollBack();
+    }
+
+    function commit(){
+        return $this->_db->commit();
+    }
+
 	/**
 	 * 过滤转义字符
 	 *
@@ -241,13 +254,13 @@ class spModel {
 	 *
 	 * @param sql 字符串，需要执行的SQL语句
 	 */
-	public function runSql($sql)
+	public function exec($sql)
 	{
 		return $this->_db->exec($sql);
 	}
 
 	// query是runSql的别名，向前兼容
-	public function query($sql){return $this->runSql($sql);}
+	public function query($sql){return $this->exec($sql);}
 
 	/**
 	 * 返回最后执行的SQL语句供分析
