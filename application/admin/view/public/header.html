@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>文件上线管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes" />    
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="format-detection" content="telephone=yes"/>
+<meta name="msapplication-tap-highlight" content="no" />
+<script type="text/javascript" src="/static/js/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="/static/js/prompt/ymPrompt.js"></script>
+<script type="text/javascript" src="/static/js/backend.js"> </script>
+<link href="/static/css/css.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" id='skin' type="text/css" href="/static/js/prompt/skin/dmm-green/ymPrompt.css" />
+</head>
+<body>
+<div class="top">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="194" height="60" align="center" background="/static/images/top_logo.jpg"><font style='font-size:25px; font-weight:bold'>后台管理系统</font></td>
+    <td align="center" style="background:url(/static/images/top_bg.jpg) no-repeat"><table cellspacing="0" cellpadding="0" border="0" width="100%" height="33">
+      <tbody>
+        <tr>
+          <td width="30" align="left"><img height="15" alt="关闭左边管理菜单" src="/static/images/on-of.gif" width="15" border="0" /></td>
+	  <td width="320" align="left">
+		<a class="top_link" href="javascript:;" >您好！{$userInfo.uname}</a><span class="top_link">┆</span> 
+{*		<a class="top_link" href="{spurl r='admin/main/changePwd'}" >修改密码</a><span class="top_link">┆</span> *}
+		<a class="top_link" href="{spurl r='main/index'}" >查看前台</a><span class="top_link">┆</span> 
+		<a class="top_link" id="loginOut" href="{spurl r='admin/main/loginOut'}">退出登录</a>
+	 </td>
+          <td width="80" align="right" nowrap="nowrap" class="topbar">  </td>
+          <td class="topbar"><a href="javascript:;" >{*<img title="返回首页" height="23"  src="/static/images/home.gif" width="33" border="0" />*}</a>&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <table height="26" border="0" align="left" cellpadding="0" cellspacing="0" class="subbg" name="t1">
+      <tbody>
+        <tr align="middle">
+	{foreach $topLanmus as $lanmu}
+          <td width="71" height="26" align="center" valign="middle" background="static/images/top_tt_bg.gif"><a href="{'admin/main'|spUrl:'left'}&id={$lanmu.id}"  class="STYLE2">{$lanmu.name}</a></td>
+	  {if $lanmu@last}<td align="center" class="topbar"><span class="STYLE2"> </span></td>{/if}
+	{/foreach}
+	</tr>
+      </tbody>
+    </table>
+    </td>
+  </tr>
+  <tr height="6">
+    <td bgcolor="#1F3A65" background="/static/images/top_bg.jpg"></td>
+  </tr>
+</table>
+</div>
+<div class="main">
+	<div class="left">
+	<table width="98%" border="0" cellpadding="0" cellspacing="0" background="/static/images/tablemde.jpg">
+  <tr>
+    <td height="5" background="/static/images/tableline_top.jpg" bgcolor="#16ACFF"></td>
+  </tr>
+  <tr>
+    <td><TABLE width="97%" 
+border=0 align=right cellPadding=0 cellSpacing=0 class=leftframetable>
+      <TBODY>
+	<TR>
+	  <TD height="25" style="background:url(/static/images/left_tt.gif) no-repeat">
+	    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	      <tr>
+		<TD width="20"></TD>
+	  <TD class="STYLE1" style="CURSOR: hand" onclick="showsubmenu(1);" height="25">主机设置</TD>
+	      </tr>
+	    </table>           
+		 </TD>
+	  </TR>
+        <TR>
+          <TD><TABLE id="submenu1" cellSpacing="0" cellPadding="0" width="100%" border="0">
+              <TBODY>
+				<TR>
+                  <TD width="2%"><IMG src="/static/images/closed.gif"></TD>
+                  <TD height="23"><A href="{spurl r='admin/HostsCategory/index'}">项目组管理</A></TD>
+                </TR>
+                <TR>
+                  <TD width="2%"><IMG src="/static/images/closed.gif"></TD>
+                  <TD height="23"><A href="{'admin/hosts'|spUrl:'cateList'}">项目管理</A></TD>
+                </TR>
+                <TR>
+                  <TD width="2%"><IMG src="/static/images/closed.gif"></TD>
+                  <TD height="23"><A href="{spurl r='admin/agent/index'}">代理列表</A></TD>
+                </TR>
+              </TBODY>
+          </TABLE></TD>
+        </TR>
+      </TBODY>
+    </TABLE></td>
+  </tr>
+  <tr>
+    <td height="5" background="/static/images/tableline_bottom.jpg" bgcolor="#9BC2ED"></td>
+  </tr>
+  <tr>
+    <td height="5" background="/static/images/tableline_top.jpg" bgcolor="#9BC2ED"></td>
+  </tr>
+  <tr>
+    <td><table class="leftframetable" cellspacing="0" cellpadding="0" width="97%" align="right" 
+border="0">
+      <tbody>
+        <tr>
+          <td height="25" style="background:url(/static/images/left_tt.gif) no-repeat"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="20"></td>
+          <td height="25" class="titledaohang" style="CURSOR: hand" onClick="showsubmenu(2);"><span class="STYLE1">用户管理</span></td>
+              </tr>
+            </table></td>
+          </tr>
+        <tr>
+          <td><table id="submenu2" cellspacing="0" cellpadding="0" width="100%" border="0">
+              <tbody>
+                <tr>
+                  <td width="2%"><img src="/static/images/closed.gif" /></td>
+		  <td height="23"><a href="{'admin/user'|spUrl:'index'}" >用户列表</a></td>
+                </tr>
+                <tr>
+                  <td width="2%"><img src="/static/images/closed.gif" /></td>
+		  <td height="23"><a href="{'admin/user'|spUrl:'add'}" >添加用户</a></td>
+                </tr>
+{*
+                <tr>
+                  <td><img src="/static/images/closed.gif" /></td>
+		  <td height="23">
+			<a href="{'admin/user'|spUrl:'right'}" >权限管理</a>
+		 </td>
+                </tr>
+*}
+	      </tbody>
+          </table></td>
+        </tr>
+      </tbody>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="5" background="/static/images/tableline_bottom.jpg" bgcolor="#9BC2ED"></td>
+  </tr>
+  {*
+  <tr>
+    <td height="5" background="/static/images/tableline_top.jpg" bgcolor="#9BC2ED"></td>
+  </tr>
+  <tr>
+    <td><TABLE class=leftframetable cellSpacing=0 cellPadding=0 width="97%" align=right border=0>
+      <TBODY>
+        <TR>
+          <TD height="25" style="background:url(/static/images/left_tt.gif) no-repeat"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <TD width="20"></TD>
+          <TD class=STYLE1 style="CURSOR: hand" onclick=showsubmenu(5); height=25>后台栏目管理</TD>
+            </tr>
+          </table></TD>
+          </TR>
+        <TR>
+          <TD><TABLE id=submenu5 cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+                <TR>
+                  <TD width="2%"><IMG src="/static/images/closed.gif"></TD>
+                  <TD height=23><A href="{'admin/lanmu'|spUrl:'index'}" >后台栏目管理</A> </TD>
+             </TR>
+			 <!--
+                <TR>
+                  <TD><IMG src="/static/images/closed.gif"></TD>
+                  <TD height=23><A   href="{'admin/lanmu'|spUrl:'right'}"  >后台栏目权限设置 </A></TD>
+                </TR>
+			 -->
+              </TBODY>
+          </TABLE></TD>
+        </TR>
+      </TBODY>
+    </TABLE></td>
+  </tr>
+  <tr>
+    <td height="5" background="/static/images/tableline_bottom.jpg" bgcolor="#9BC2ED"></td>
+  </tr>
+  *}
+  {*
+{foreach $datas as $data}
+  <tr>
+    <td height="5" background="/static/images/tableline_top.jpg" bgcolor="#9BC2ED"></td>
+  </tr>
+  <tr>
+    <td><TABLE class=leftframetable cellSpacing=0 cellPadding=0 width="97%" align=right border=0>
+      <TBODY>
+        <TR>
+          <TD height="25" style="background:url(/static/images/left_tt.gif) no-repeat"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <TD width="20"></TD>
+          <TD class=STYLE1 style="CURSOR: hand" onclick=showsubmenu({$data@index}); height=25>{$data.name}</TD>
+            </tr>
+          </table></TD>
+          </TR>
+	{foreach $data.sons as $son}
+        <TR>
+          <TD><TABLE id=submenu9 cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+                <TR>
+                  <TD width="2%"><IMG src="/static/images/closed.gif"></TD>
+                  <TD height=23><a href="{spurl r=$son.controller/$son.action}" >{$son.name}</A> </TD>
+                </TR>
+              </TBODY>
+          </TABLE></TD>
+	{/foreach}
+        </TR>
+      </TBODY>
+    </TABLE></td>
+  </tr>
+  <tr>
+    <td height="5" background="/static/images/tableline_bottom.jpg" bgcolor="#9BC2ED"></td>
+  </tr>
+{/foreach}
+*}
+  <tr>
+    <td height="5" background="/static/images/tableline_top.jpg" bgcolor="#9BC2ED"></td>
+  </tr>
+  <tr>
+    <td height="8">
+<TABLE class=leftframetable cellSpacing=1 cellPadding=1 width="97%" align=right 
+border=0>
+      <TBODY>
+        <TR>
+          <TD height="25" style="background:url(/static/images/left_tt.gif) no-repeat"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <TD width="20"></TD>
+          <TD class=STYLE1 height=25>系统信息</TD>
+            </tr>
+          </table></TD>
+          </TR>
+        <TR>
+          <TD 
+      height=105><span class="STYLE2"><IMG src="/static/images/closed.gif">版权所有：邓联文<br>
+              <IMG src="/static/images/closed.gif">技术支持：<a href="mailto:nenu_1@126.com" >nenu_1@126.com</a><br>
+              <IMG src="/static/images/closed.gif">帮助中心：<a href="mailto:nenu_1@126.com" >nenu_1@126.com</a><br>
+            <IMG src="/static/images/closed.gif">系统版本：1.0</span></TD>
+        </TR>
+      </TBODY>
+    </TABLE>	</td>
+  </tr>
+  <tr>
+    <td height="5" background="/static/images/tableline_bottom.jpg"></td>
+  </tr>
+</table>
+	</div>
+	<div class="right">

@@ -1,0 +1,119 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<script type="text/javascript" src="/static/js/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="/static/js/prompt/ymPrompt.js"></script>
+<script type="text/javascript" src="/static/js/backend.js"> </script>
+<link rel="stylesheet" id='skin' type="text/css" href="/static/js/prompt/skin/dmm-green/ymPrompt.css" />
+<link href="/static/css/top_css.css" rel="stylesheet" type="text/css">
+</head>
+<body bgcolor="#03A8F6">
+
+{literal}
+<style type="text/css">
+<!--
+td {
+	font-size: 12px;
+	color: #007AB5;
+}
+form {
+	margin: 1px;
+	padding: 1px;
+}
+input {
+	border: 0px;
+	height: 24px;
+	color: #007AB5;
+}
+body {
+	background-repeat: no-repeat;
+	background-color: #9cdcf9;
+	background-position: 0px 0px;
+}
+-->
+</style>
+<script language="javascript">
+<!--
+function loginMsg($msg){
+console.log(String($msg));
+	$("#span").html(String($msg)+'！');
+}
+function login(){
+	user_name_val	= $("#uname").val();
+	passwd_val	= $("#passwd").val();
+	url_val		= $("#loginForm").attr("action");
+	if(user_name_val == ''){
+		loginMsg('用户名不能为空');
+		$("#uname").focus();
+		return false;
+	}
+	if(passwd_val == ''){
+		loginMsg('密码不能为空');
+		$('#passwd').focus();
+		return false;
+	}
+	$.ajax({
+		url:url_val,
+		data:{'uname':user_name_val, 'passwd':passwd_val},
+		type:'POST',
+		dataType:'json',
+		success:function(data){
+			if(data[0] == 1) location.href = $("#success_url").val();
+			else
+			loginMsg(data[1]);
+		}
+	});
+	return false;
+}
+{/literal}
+-->
+</script>
+<table width="681" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:120px">
+  <tr>
+    <td width="353" height="259" align="center" valign="bottom" background="/static/images/login_1.gif"><table width="90%" border="0" cellspacing="3" cellpadding="0">
+      <tr>
+	<td align="right" valign="bottom" style="color:#05B8E4">Power by <a href="http://www.zhisland.com" target="_blank">zhisland</a> Copyright 2009-{"Y"|date}</td>
+      </tr>
+    </table></td>
+    <td width="195" background="/static/images/login_2.gif"><table width="190" height="106" border="0" align="center" cellpadding="2" cellspacing="0">
+      <form method="post" id="loginForm" action="{'admin/main'|spUrl:doLogin}" onsubmit="return login()" name="NETSJ_Login">
+	    <tr>
+	      <td height="50" colspan="2" align="left"><span id="span" style="color:red; font-weight:bold"></span></td>
+	    </tr>
+
+	    <tr>
+	      <td width="60" height="30" align="left">用户名：</td>
+	      <td><input name="uname" id="uname" type="TEXT" style="background:url(/static/images/login_6.gif) repeat-x; border:solid 1px #27B3FE; height:20px; background-color:#FFFFFF; width:120px" id="UserName"></td>
+	    </tr>
+
+	    <tr>
+	      <td height="30" align="left">密　码：</td>
+	      <td><input name="passwd" id="passwd" TYPE="PASSWORD" style="background:url(/static/images/login_6.gif) repeat-x; border:solid 1px #27B3FE; height:20px; background-color:#FFFFFF; width:120px" id="Password" ></td>
+	    </tr>
+
+	    <tr>
+	      <td height="10" colspan="2"></td>
+	   </tr>
+
+	  <tr>
+	      <td colspan="2" align="center">
+			  <input name="success_url" id="success_url" type="hidden" value="{'main'|spUrl:'index'}" />
+			  <input type="submit" name="submit" style="background:url(/static/images/login_5.gif) no-repeat; width:69px" value="登录"> 
+			  <input type="reset" name="Submit" style="background:url(/static/images/login_5.gif) no-repeat; width:69px" value="取消">
+	       </td>
+	  </tr>
+	  <tr>
+	      <td height="5" colspan="2"></td>
+	  </tr>
+	</form>
+    </table></td>
+    <td width="133" background="/static/images/login_3.gif">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="161" colspan="3" background="/static/images/login_4.gif"></td>
+  </tr>
+</table>
+</body>
+</html>
+

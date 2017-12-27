@@ -1,0 +1,300 @@
+/*@import url(https://fonts.useso.com/css?family=Roboto:400,500,100);*/
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+html {
+}
+
+body{
+  width: 1200px;
+  height: 100%;
+  margin:2% auto;
+  overflow: scroll;
+  position: relative;
+  background: #748ba0 url("../images/background.png") repeat-x;
+  font-family:"Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";
+  text-align: center;
+}
+
+
+
+a{color: #2fa0ec;text-decoration: none;outline: none;}
+a:hover,a:focus{color:#74777b;
+
+
+}
+
+
+.button1{
+    position: relative; /** 相对布局 **/
+}
+.button1:active{
+    top: 2px; /**向下偏移2px **/
+}
+
+.htmleaf-container{
+	background-color: white;
+	width: 80%;
+    margin:2% auto;
+    text-align:center;
+
+}
+.htmleaf-container2{
+	background-color: #e2e2e2;
+
+	width: 80%;
+    margin:2% auto;
+    text-align:center;
+}
+.htmleaf-content {
+	font-size: 150%;
+	padding: 1em 0;
+}
+
+.htmleaf-content h2 {
+	margin: 0 0 2em;
+	opacity: 0.1;
+}
+
+.htmleaf-content p {
+	margin: 1em 0;
+	padding: 5em 0 0 0;
+	font-size: 0.65em;
+}
+
+
+
+/* Header */
+.htmleaf-header{
+	background-color: #384368;
+	height: 100px;
+	padding: 1em 7.5em 1em;
+	letter-spacing: -1px;
+	text-align: left;
+}
+
+.htmleaf-header h1 {
+	color: #fff;
+	font-weight: 100;
+	font-size: 1.5em;
+	line-height: 1.5;
+	margin-bottom: 0;
+	font-weight:  400;
+}
+.htmleaf-header h1 span {
+
+	display: block;
+	font-size: 60%;
+	font-weight: 400;
+	padding: 0.8em 0 0.5em 0;
+	color: #fff;
+}
+
+.gong {
+float: right;
+color: #fff;
+width: 50px;
+height: 60px;
+font-size: 14px;
+margin-right:20px;
+margin-top: 20px;
+border: none;
+background: none;
+}
+.gong img{
+    width:24px;
+}
+.loadon{
+float: right;
+color: #fff;
+font-size: 16px;
+background-color: #5a6899;
+width: 125px;
+height: 98px;
+margin-right:40px;
+margin-top: 0;
+line-height: 100px;
+border: none;
+
+}
+.outline{
+float: right;
+color: #fff;
+font-size: 16px;
+background-color: #4f5c89;
+width: 125px;
+height: 98px;
+margin-right:0;
+margin-top: 0;
+line-height: 100px;
+border: none;
+}
+.online{
+float: right;
+color: #fff;
+font-size: 16px;
+background-color: #45517b;
+width: 125px;
+height: 98px;
+margin-right:0;
+margin-top: 0;
+line-height: 100px;
+border: none;
+
+}
+
+
+
+
+
+
+
+
+
+.panel-lite {
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 100px 20px;
+
+  position: relative;
+}
+.panel-lite h4 {
+  font-weight: 400;
+  font-size: 24px;
+  text-align: center;
+  color: #FF4081;
+  margin: 15px auto;
+}
+.panel-lite a {
+  display: inline-block;
+  line-height: 50px;
+  text-decoration: none;
+  color: #000000;
+  font-size: 14px;
+}
+.form-group {
+  position: relative;
+  font-size: 15px;
+  color: #000000;
+  padding-top: 1em;
+}
+.form-control {
+  font-size: 15px;
+  width: 300px;
+  height: 50px;
+  float: left;
+  border: 1px solid #aaaaaa;
+}
+.form-control2 {
+
+  width: 200px;
+  height: 40px;
+  margin-left: -500px;
+ font-size: 15px;
+  border: 1px solid #aaaaaa;
+  background-color: #e2e2e2;
+}
+.form-control3 {
+
+  width: 150px;
+  height: 150px;
+  margin-left: -190px;
+  font-size: 15px;
+  border: 1px solid #aaaaaa;
+  background-color: #e2e2e2;
+}
+.form-control4 {
+
+  width: 150px;
+  height: 40px;
+  margin-left: 10px;
+  font-size: 15px;
+  border: none;
+  background: none;
+}
+
+.form-label {
+  background-color: #dcdcdc;
+  width: 85px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  float: left;
+  border: 1px solid #aaaaaa;
+  border-right: none;
+}
+
+
+.floating-btn {
+    font-size: 19px;
+    margin-right: 35px;
+    color: white;
+    letter-spacing: 5px;
+    text-align: center;
+    background-color: #4f5c89;
+    width: 155px;
+    height: 41px;
+    position: absolute;
+    right: 180px;
+    bottom: 150px;
+    font-weight:200
+}
+
+.floating-btn img {
+
+  width: 100%;
+  height: 100%;
+
+
+}
+
+.table-d table{border: none; border-collapse:collapse;margin-left:0;background-color: white} 
+.table-d table td{ border-bottom:1px solid #b5b5b5;line-height: 40px;text-align: left;} 
+
+.a-upload {
+    padding: 4px 10px;
+    height: 40px;
+    line-height: 30px;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background: #fafafa;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
+
+.a-upload  input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.a-upload:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
+}
+
+.itemlist{
+    list-style:none;
+    margin: 40px 40px 0 40px;
+    overflow:hidden;
+}
+
+.itemlist li{
+    width:200px;
+    float:left;
+}
+.showFileName{
+    height:30px
+}
+

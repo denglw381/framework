@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>蓝鲸睡眠曲目管理系统</title>
+       
+        <link rel="stylesheet" type="text/css" href="{$static_url}/web/css/styles.css"/>
+        <!--[if IE]>
+                <script src="{$static_url}/web/js/html5shiv.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+{include file="public/menu.html"}
+ <p style="margin-top: 50px;text-align: left;margin-left: 12%;">1.填写曲目名称<span style="color: gray">(限四个汉字)</span></p>
+ <br>
+ <input required="required" class="form-control2"/>
+  <p style="margin-top: 50px;text-align: left;margin-left: 12%;">2.上传图标<span style="color: gray">(200*200.png)</span></p>
+ <input required="required" class="form-control3"/>
+ <button style="width: 120px;height: 40px;text-align: center;margin-top: 5%; margin-right: 25%;font-size: 17px;">选择文件</button>
+  <p style="margin-top: 50px;text-align: left;margin-left: 12%;"> 3.上传曲目音频<span style="color: gray">（限20M以内大小，格式MP3）</span></p>
+<button style="width: 120px;height: 40px;text-align: center;margin-right: 60%;font-size: 17px;">选择文件</button>
+<div  style="text-align: center;margin-top: 8%"><input name="top" type="checkbox" value=""/>在曲目列表置顶</div>
+<button style="width: 120px;height: 40px;text-align: center;margin-right: 0%;font-size: 17px;background-color: #4f5c89;color: white">上传</button>
+ <div style="height: 70px"></div>
+        </article>
+    </body>
+</html>

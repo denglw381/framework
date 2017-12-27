@@ -1,0 +1,18 @@
+        <script type="text/javascript" src="/static/js/prompt/ymPrompt.js"></script>
+        <script type="text/javascript" src="/static/js/backend.js"> </script>
+        <link rel="stylesheet" id='skin' type="text/css" href="/static/js/prompt/skin/dmm-green/ymPrompt.css" />
+ 
+        <article class="htmleaf-container2">
+	        <div><img src="{$static_url}/web/images/logo.png" style="float: left"></div>
+	                <div>
+	               <button class="gong button1" onclick="location.href='{spurl r="admin/main/loginOut"}'"><img src="{$static_url}/web/images/exit.png"><br style="line-height: 25px">退出</button>
+		           <button onclick="location.reload()" class="gong button1" style="margin-right: 20px"><img src="{$static_url}/web/images/shuaxin.png"><br style="line-height: 25px">刷新</button>     
+	               <button  class="loadon button1" onclick="location.href='{spurl r="admin/music/change"}'"><span {if $request.a eq "change"}style="color: yellow"{/if}>上传新曲目</span></button>
+	               <button class="outline button1" onclick="location.href='{spurl r="admin/music/outline"}'"><span {if $request.a eq "outline"}style="color: yellow"{/if}>下架曲目</span></button>
+	               <button class="online button1" onclick="location.href='{spurl r="admin/music/online"}'"><span {if $request.a eq "online"}style="color: yellow"{/if}>在线曲目</span></button>
+               </div>
+
+            <header class="htmleaf-header">
+                <h1>曲目管理系统</h1>
+            </header>
+
