@@ -165,9 +165,9 @@ class spModel {
         return $this->_db->rollBack();
    }
 
-    function commit(){
+   function commit(){
         return $this->_db->commit();
-    }
+   }
 
 	/**
 	 * 过滤转义字符
@@ -294,29 +294,7 @@ class spModel {
 	{
 		return $this->_db->affected_rows();
 	}
-	/**
-	 * 计算符合条件的记录数量
-	 *
-	 * @param conditions 查找条件，数组array("字段名"=>"查找值")或字符串，
-	 * 请注意在使用字符串时将需要开发者自行使用escape来对输入值进行过滤
-	 */
-	public function findCount($conditions = null)
-	{
-		$where = "";
-		if(is_array($conditions)){
-			$join = array();
-			foreach( $conditions as $key => $condition ){
-				$condition = $this->escape($condition);
-				$join[] = "{$key} = {$condition}";
-			}
-			$where = "WHERE ".join(" AND ",$join);
-		}else{
-			if(null != $conditions)$where = "WHERE ".$conditions;
-		}
-		$sql = "SELECT COUNT({$this->pk}) AS SP_COUNTER FROM {$this->tbl_name} {$where}";
-		$result = $this->_db->getArray($sql);
-		return $result[0]['SP_COUNTER'];
-	}
+
 
 	/**
 	 * 魔术函数，执行模型扩展类的自动加载及使用
@@ -341,85 +319,30 @@ class spModel {
 	}
 
 
-	/**
-	 +----------------------------------------------------------
-	 * 查询数据集
-	 +----------------------------------------------------------
-	 * @access public
-	 +----------------------------------------------------------
-	 * @param array $options 表达式参数
-	 +----------------------------------------------------------
-	 * @return mixed
-	 +----------------------------------------------------------
-	 */
 
-	#分析表达式
-	private function _parseOptions($options) {
-		if(is_array($options))
-		$options =  array_merge($this->options,$options);
-		// 查询过后清空sql表达式组装 避免影响下次查询
-		$this->options  =   array();
-		if(!isset($options['table']))
-		// 自动获取表名
-		$options['table'] =$this->getTableName();
-		// 字段类型验证
-		if(spConfig('db_fieldtype_check')) {
-			if(isset($options['where']) && is_array($options['where'])) {
-				// 对数组查询条件进行字段类型检查
-				foreach ($options['where'] as $key=>$val){
-					if(in_array($key,$this->fields,true) && is_scalar($val)){
-						$fieldType = strtolower($this->fields['_type'][$key]);
-						if(false !== strpos($fieldType,'int')) {
-							$options['where'][$key]   =  intval($val);
-						}elseif(false !== strpos($fieldType,'float') || false !== strpos($fieldType,'double')){
-							$options['where'][$key]   =  floatval($val);
-						}
-					}
-				}
+	/**
+	 * 计算符合条件的记录数量
+	 *
+	 * @param conditions 查找条件，数组array("字段名"=>"查找值")或字符串，
+	 * 请注意在使用字符串时将需要开发者自行使用escape来对输入值进行过滤
+	 */
+	public function findCount($conditions = null)
+	{
+		$where = "";
+		if(is_array($conditions)){
+			$join = array();
+			foreach( $conditions as $key => $condition ){
+				$condition = $this->escape($condition);
+				$join[] = "{$key} = {$condition}";
 			}
+			$where = "WHERE ".join(" AND ",$join);
+		}else{
+			if(null != $conditions)$where = "WHERE ".$conditions;
 		}
-		// 表达式过滤
-		$this->_options_filter($options);
-		return $options;
+		$sql = "SELECT COUNT({$this->pk}) AS SP_COUNTER FROM {$this->tbl_name} {$where}";
+		$result = $this->_db->getArray($sql);
+		return $result[0]['SP_COUNTER'];
 	}
-
-	// 表达式过滤回调方法
-	protected function _options_filter(&$options) {}
-
-
-	/**
-	 +----------------------------------------------------------
-	 * 查询数据集
-	 +----------------------------------------------------------
-	 * @access public
-	 +----------------------------------------------------------
-	 * @param array $options 表达式参数
-	 +----------------------------------------------------------
-	 * @return mixed
-	 +----------------------------------------------------------
-	 */
-	public function select($options=array()) {
-		if(is_string($options) || is_numeric($options)) {
-			// 根据主键查询
-			$where   =  $this->getPk().' IN ('.$options.')';
-			$options =  array();
-			$options['where'] =  $where;
-		}
-		// 分析表达式
-		$options =  $this->_parseOptions($options);
-		$resultSet = $this->_db->select($options);
-		if(false === $resultSet) {
-			return false;
-		}
-		if(empty($resultSet)) { // 查询结果为空
-			return null;
-		}
-		$this->_after_select($resultSet,$options);
-		return $resultSet;
-	}
-
-	// 查询成功后的回调方法
-	protected function _after_select(&$resultSet,$options) {}
 
 	#分页查找总函数,满足手机端和web端的需求.性能不高，当然性能要求高不能直接用sql语句
 	public function findPage($sql = null, $pagesize = 20, $page = null, $prev = null, $next = null){
@@ -444,7 +367,7 @@ class spModel {
 	}
 
 
-    #分页查找
+    #分页查找,线性分页模型
     public function linePage($sql, $count = 20, $prev_id = null, $next_id = null){
             $line_page = library('SpLinePage');
             if(empty($prev_id) && empty($next_id)){
@@ -456,7 +379,7 @@ class spModel {
             return $line_page->get($sql, $count, $prev_id, $next_id, array($this, 'findAllSql'));
     }
 
-	#sql语句查找
+	#sql语句查找,web网站分页模型
 	public function webPage($sql, $pagesize = 20, $page = null){
 		$result = array();
 		if(!is_numeric($page)) $page = $_GET[spConfig("var_page")]?$_GET[spConfig("var_page")] : 1;
@@ -467,7 +390,6 @@ class spModel {
 
 	/**
 	 * 修改数据，该函数将根据参数中设置的条件而更新表中数据
-	 *
 	 * @param conditions    数组形式，查找条件，此参数的格式用法与find/findAll的查找条件参数是相同的。
 	 * @param row    数组形式，修改的数据，
 	 *  此参数的格式用法与create的$row是相同的。在符合条件的记录中，将对$row设置的字段的数据进行修改。
@@ -499,7 +421,6 @@ class spModel {
 
 	/**
 	 * 替换数据，根据条件替换存在的记录，如记录不存在，则将条件与替换数据相加并新增一条记录。
-	 *
 	 * @param conditions    数组形式，查找条件，请注意，仅能使用数组作为该条件！
 	 * @param row    数组形式，修改的数据
 	 */
