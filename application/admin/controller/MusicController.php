@@ -44,12 +44,12 @@ class MusicController extends BaseController
                if($id){
                     model('Product')->update(['id'=>$id], $input);
                }else{
-                    $datas = model('Product')->findSql('select min(weight) as weight from tbl_product');
+                    $datas = model('Product')->findAllSql('select min(weight) as weight from tbl_product');
                     $input['weight'] = $datas[0]['weight'] - 1;
                     $id = model('Product')->create($input);
                } 
                if($top){
-                    $result = model('Product')->findSql('select max(weight) as weight from tbl_product');
+                    $result = model('Product')->findAllSql('select max(weight) as weight from tbl_product');
                     $weight = intval($result[0]['weight']) + 1;
                     model('Product')->update(['id'=>$id], ['weight'=>$weight]); 
                }
@@ -99,7 +99,7 @@ class MusicController extends BaseController
 
         function setoutlineAction(){
                 $id = $this->spArgs('id', 0);
-                $result = model('Product')->findSql('select min(weight) as weight from tbl_product');
+                $result = model('Product')->findAllSql('select min(weight) as weight from tbl_product');
                 $weight = intval($result[0]['weight']) - 1;
                 model('Product')->update(['id'=>$id], ['is_show'=>0, 'weight'=>$weight]);
                 $this->success('已下架');
@@ -108,7 +108,7 @@ class MusicController extends BaseController
 
         function setonlineAction(){
                 $id = $this->spArgs('id', 0);
-                $result = model('Product')->findSql('select min(weight) as weight from tbl_product');
+                $result = model('Product')->findAllSql('select min(weight) as weight from tbl_product');
                 $weight = intval($result[0]['weight']) - 1;
                 model('Product')->update(['id'=>$id], ['is_show'=>1, 'weight'=>$weight]);
                 $this->success('已上架');
@@ -116,7 +116,7 @@ class MusicController extends BaseController
 
         function settopAction(){
                 $id = (int)$this->spArgs('id', 0);
-                $result = model('Product')->findSql('select max(weight) as weight from tbl_product');
+                $result = model('Product')->findAllSql('select max(weight) as weight from tbl_product');
                 $weight = intval($result[0]['weight']) + 1;
                 model('Product')->update(['id'=>$id], ['weight'=>$weight]); 
                 $this->success('已置顶');

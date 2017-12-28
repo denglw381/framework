@@ -85,16 +85,6 @@ class spModel {
 			return FALSE;
 		}
 	}
-	/*
-	 *查找某一个字段
-	 *
-	 *
-	 */
-	public function getField($field,$condition='') {
-		$result = $this->find($condition, null, $field);
-        if($result) return $result[$field];
-		return null;
-	}
 
 	/**
 	 * 从数据表中查找记录
@@ -130,13 +120,50 @@ class spModel {
 		return $this->_db->getArray($sql);
 	}
 
-    function beginTransaction(){
-        return $this->_db->beginTransaction();
-    }
+ 
 
-    function rollBack(){
+	/**
+	 * 使用SQL语句进行查找操作，等于进行find，findAll等操作
+	 *
+	 * @param sql 字符串，需要进行查找的SQL语句
+	 */
+	public function findSql($sql)
+	{
+        $result = $this->findAllSql($sql);
+        return $result[0];
+	}
+
+	/**
+	 * 使用SQL语句进行查找操作，等于进行find，findAll等操作
+	 *
+	 * @param sql 字符串，需要进行查找的SQL语句
+	 */
+	public function findAllSql($sql)
+	{
+		return $this->_db->getArray($sql);
+	}
+
+	/*
+	 *查找某一个字段
+	 *
+	 *
+	 */
+	public function getField($field,$condition='') {
+		$result = $this->find($condition, null, $field);
+        if($result) return $result[$field];
+		return null;
+	}
+
+   /**
+    *
+    */
+   function beginTransaction(){
+        return $this->_db->beginTransaction();
+   }
+
+   function rollBack(){
         return $this->_db->rollBack();
-    }
+   }
 
     function commit(){
         return $this->_db->commit();
@@ -237,16 +264,6 @@ class spModel {
 	public function updateField($conditions, $field, $value)
 	{
 		return $this->update($conditions, array($field=>$value));
-	}
-
-	/**
-	 * 使用SQL语句进行查找操作，等于进行find，findAll等操作
-	 *
-	 * @param sql 字符串，需要进行查找的SQL语句
-	 */
-	public function findSql($sql)
-	{
-		return $this->_db->getArray($sql);
 	}
 
 	/**
@@ -412,7 +429,7 @@ class spModel {
         if(is_null($page) && is_null($prev) && is_null($next)){
                 $pageData = $this->linePage($sql, $pagesize, $prev, $next);
                 $sql = preg_replace('/(?<=SELECT).*?(?=FROM)/is', ' count(*) as total ', $sql, 1);;
-                $info = $this->findSql($sql);
+                $info = $this->findAllSql($sql);
                 $total = $info[0]['total'];
                 $page = library('SpPage');
                 $page->set_config($total, $pagesize);
@@ -436,14 +453,14 @@ class spModel {
                             $prev_id = isset($_POST['prev'])?$_POST['prev']:0;
             }
             if(isset($_POST['count'])) $count = (int)$_POST['count'];
-            return $line_page->get($sql, $count, $prev_id, $next_id, array($this, 'findSql'));
+            return $line_page->get($sql, $count, $prev_id, $next_id, array($this, 'findAllSql'));
     }
 
 	#sql语句查找
 	public function webPage($sql, $pagesize = 20, $page = null){
 		$result = array();
 		if(!is_numeric($page)) $page = $_GET[spConfig("var_page")]?$_GET[spConfig("var_page")] : 1;
-		$result['data'] = $this->spPager($page, $pagesize)->findSql($sql);
+		$result['data'] = $this->spPager($page, $pagesize)->findAllSql($sql);
 		$result['html']	= $this->spPager()->getPagerStr($pagesize);
 		return $result;
 	}
@@ -588,7 +605,7 @@ class spPager {
 	 * 魔术函数，支持多重函数式使用类的方法
 	 */
 	public function __call($func_name, $func_args){
-		if( ( 'findAll' == $func_name || 'findSql' == $func_name ) && 0 != $this->input_args[0]){
+		if( ( 'findAll' == $func_name || 'findAllSql' == $func_name ) && 0 != $this->input_args[0]){
 			return $this->runpager($func_name, $func_args);
 		}elseif(method_exists($this,$func_name)){
 			return call_user_func_array(array($this, $func_name), $func_args);
@@ -612,10 +629,10 @@ class spPager {
 		$page = $this->input_args[0];
 		$pageSize = $this->input_args[1];
 		@list($conditions, $sort, $fields ) = $func_args;
-		if('findSql'==$func_name){
+		if('findAllSql'==$func_name){
 			$count_field = '*';
 			if(isset($this->model_obj->pk)) $count_filed = $this->model_obj->pk;
-			$total_count = array_pop( array_pop( $this->model_obj->findSql("SELECT COUNT({$count_field}) as sp_counter FROM ($conditions) sp_tmp_table_pager1") ) );
+			$total_count = array_pop( array_pop( $this->model_obj->findAllSql("SELECT COUNT({$count_field}) as sp_counter FROM ($conditions) sp_tmp_table_pager1") ) );
 		}else{
 			$total_count = $this->model_obj->findCount($conditions);
 		}
@@ -635,10 +652,10 @@ class spPager {
 			);
 			for($i=1; $i <= $total_page; $i++)$this->pageData['all_pages'][] = $i;
 			$limit = ($page - 1) * $pageSize . "," . $pageSize;
-			if('findSql'==$func_name)$conditions = $this->model_obj->_db->setlimit($conditions, $limit);
+			if('findAllSql'==$func_name)$conditions = $this->model_obj->_db->setlimit($conditions, $limit);
 		}
-		if('findSql'==$func_name){
-			return $this->model_obj->findSql($conditions);
+		if('findAllSql'==$func_name){
+			return $this->model_obj->findAllSql($conditions);
 		}else{
 			return $this->model_obj->findAll($conditions, $sort, $fields, $limit);
 		}

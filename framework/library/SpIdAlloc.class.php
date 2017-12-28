@@ -23,7 +23,7 @@ class SpIdAlloc{
                                 'idx'  => $idx,
                                 );
                 $this->_dao->beginTransaction();
-                $info = $this->_dao->findSql("select id from tbl_id_alloc where name='$name' and idx='$idx' for update ");
+                $info = $this->_dao->findAllSql("select id from tbl_id_alloc where name='$name' and idx='$idx' for update ");
                 if($info){
                         $id = $info[0]['id'] + $max;
                         $ret = $this->_dao->update($arrConds, ['id'=>$id]);

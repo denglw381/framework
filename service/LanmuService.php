@@ -65,7 +65,7 @@ class LanmuService extends spService{
 		$titleInfo = $this->getAll(array('tid'=>(int)$topId, 'lid'=>0));
 		foreach($titleInfo as &$info){
 			if(model('LanmuRight')->find(array('lid'=>$info['id'], 'status'=>1, 'uid'=>$uid))){
-				$info['sons'] = $this->lanmuDao->findSql('select l.* from `'.spConfig('db.prefix').'lanmu` as l join '.spConfig('db.prefix').'lanmu_right as r on l.`tid`=r.`tid` and l.lid=r.`lid` and l.`id`=r.`sid` where r.`status`=1 and r.`uid`='.$uid.' and r.`tid`='.$topId.' and r.`lid`='.$info['id']);
+				$info['sons'] = $this->lanmuDao->findAllSql('select l.* from `'.spConfig('db.prefix').'lanmu` as l join '.spConfig('db.prefix').'lanmu_right as r on l.`tid`=r.`tid` and l.lid=r.`lid` and l.`id`=r.`sid` where r.`status`=1 and r.`uid`='.$uid.' and r.`tid`='.$topId.' and r.`lid`='.$info['id']);
 				$this->_tidyUrl($info['sons']);
 				$result[] = $info;
 			}

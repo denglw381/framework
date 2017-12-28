@@ -31,7 +31,7 @@ class UserController extends BaseController
                         on a.product_id = b.id
                      where a.uid = '.$uid.' order by a.weight desc, b.play_times desc 
                 ';
-             $data['datas'] = model('UserSetting')->findSql($sql);
+             $data['datas'] = model('UserSetting')->findAllSql($sql);
              foreach($data['datas'] as &$value){
                    $setting = model('UserSetting')->find(['uid'=>$uid]);
                    if($pause == 0 && $value['id'] == $setting['last_play_music_id']){

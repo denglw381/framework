@@ -46,7 +46,7 @@ function smarty_block_data($params, $content, $template, &$repeat)
 		#************************************************************************
 		#主要数据填充区
 		$model=spClass('spModel');
-		$result=$model->findSql($sql);
+		$result=$model->findAllSql($sql);
 		#如果没有数据，直接返回null,不必再执行了
 		if(!$result)
 		{

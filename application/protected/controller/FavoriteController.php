@@ -21,11 +21,11 @@ class FavoriteController extends BaseController
            if(0 == $music_id){
                     $music_id = model('UserSetting')->getField('last_play_music_id', ['uid'=>$this->uid]);
            }
-           $result = model('UserFavorite')->findSql('select max(weight) as weight from tbl_user_favorite where uid = '.$this->uid);
+           $result = model('UserFavorite')->findAllSql('select max(weight) as weight from tbl_user_favorite where uid = '.$this->uid);
            if($result) $max_weight = $result[0]['weight'];
            $max_weight = intval($max_weight) + 1;
            model('UserFavorite')->replace(['uid'=>$this->uid, 'product_id'=>$music_id], ['ctime'=>time(), 'weight'=>$max_weight]);
-           $favorite  = model('UserFavorite')->findSql('select count(*) as number from tbl_user_favorite where product_id = '.$music_id);
+           $favorite  = model('UserFavorite')->findAllSql('select count(*) as number from tbl_user_favorite where product_id = '.$music_id);
            model('Product')->update(['id'=>$music_id], ['favorite_times'=>(int)$favorite[0]['number']]);
            $this->success('收藏成功！');
     }
@@ -37,7 +37,7 @@ class FavoriteController extends BaseController
                     $music_id = model('UserSetting')->getField('last_play_music_id', ['uid'=>$this->uid]);
            }
            model('UserFavorite')->delete(['uid'=>$this->uid, 'product_id'=>$music_id]);
-           $favorite  = model('UserFavorite')->findSql('select count(*) as number from tbl_user_favorite where product_id = '.$music_id);
+           $favorite  = model('UserFavorite')->findAllSql('select count(*) as number from tbl_user_favorite where product_id = '.$music_id);
            model('Product')->update(['id'=>$music_id], ['favorite_times'=>(int)$favorite[0]['number']]);
            $this->success;
     }
@@ -71,7 +71,7 @@ class FavoriteController extends BaseController
                         on a.product_id = b.id
                      where a.uid = '.$uid.' order by a.weight desc, b.play_times desc 
                 ';
-             $data['datas'] = model('UserSetting')->findSql($sql);
+             $data['datas'] = model('UserSetting')->findAllSql($sql);
              foreach($data['datas'] as &$value){
                    $setting = model('UserSetting')->find(['uid'=>$uid]);
                    if($value['id'] == $setting['last_play_music_id']){

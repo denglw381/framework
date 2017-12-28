@@ -32,7 +32,7 @@ class AutoModel{
 	 */
 	static function makeAllModels(){
 		$heihei=new spModel();
-		$result=$heihei->findSql("show tables");
+		$result=$heihei->findAllSql("show tables");
 		foreach ($result as $key=>$val){
 			$val=array_values($val);
 			$val=$val[0];
@@ -49,7 +49,7 @@ class {{tableClassName}} extends spModel{
 	var '.$tablestr.'="{{table}}";
 			}
 			';
-			$result=$heihei->findSql("describe $val");
+			$result=$heihei->findAllSql("describe $val");
 			$i=0;
 			foreach ($result as $k=>$val){
 				if($i==0){
