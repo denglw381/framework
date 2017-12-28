@@ -1,11 +1,14 @@
 <?php
 define('SP_VERSION', '3.1.89'); // 当前框架版本
 define("DS",DIRECTORY_SEPARATOR);
-if (substr(PHP_VERSION, 0, 1) < '5')exit("环境要求PHP5以上！");
+
 date_default_timezone_set('Asia/Chongqing');
+
 require dirname(__FILE__).'/../daemon/lib/DmLib.php';
+
 // 载入核心函数库
 require(SP_PATH."/spFunctions.php");
+
 spConfig(array(        
 	'default_module'  => 'protected',//默认模块
 	'default_controller' => 'main', // 默认的控制器名称
@@ -14,7 +17,9 @@ spConfig(array(
 	'url_action' => 'a',  // 请求时使用的动作变量标识
 	'url_module' => 'm', //请求时模块变量标记
 ));
+
 $__module	= isset($_REQUEST[spConfig('url_module')])?$_REQUEST[spConfig('url_module')]:spConfig('default_module');
+
 define("APP_PATH", APP_APPLICATION_PATH.DS.$__module);
 // 定义系统路径
 if(!defined('SP_PATH')) define('SP_PATH', dirname(__FILE__).'/framework');
@@ -69,8 +74,10 @@ import(SP_PATH."/library/SpLog.class.php", FALSE, TRUE);
 //register_shutdown_function(array("SpLog","save"));
 //记录关闭函数
 register_shutdown_function("spRecordLog");
+
 //记录用户输入数据
 spRecordRequest(['request'=>$_POST, 'input'=>file_get_contents('php://input')]);
+
 //设置错误处理函数
 set_error_handler("spErrorHandler");
 // 当在二级目录中使用SpeedPHP框架时，自动获取当前访问的文件名
