@@ -370,7 +370,6 @@ class spModel {
 	protected function _options_filter(&$options) {}
 
 
-
 	/**
 	 +----------------------------------------------------------
 	 * 查询数据集
@@ -405,17 +404,43 @@ class spModel {
 	// 查询成功后的回调方法
 	protected function _after_select(&$resultSet,$options) {}
 
-	#分页查找
-	public function findPage($conditions = null, $order = null, $page = null, $pagesize = 20){
-		$result = array();
-		if(!is_numeric($page)) $page = $_GET[spConfig("var_page")]?$_GET[spConfig("var_page")] : 1;
-		$result['data'] = $this->spPager($page, $pagesize)->findAll($conditions, $order);
-		$result['html']	= $this->spPager()->getPagerStr($pagesize);
-		return $result;
+	#分页查找总函数,满足手机端和web端的需求.性能不高，当然性能要求高不能直接用sql语句
+	public function findPage($sql = null, $pagesize = 20, $page = null, $prev = null, $next = null){
+        if(is_null($page)) $page = $_REQUEST['p']; 
+        if(is_null($prev)) $prev = $_REQUEST['prev'];
+        if(is_null($next)) $next = $_REQUEST['next'];
+        if(is_null($page) && is_null($prev) && is_null($next)){
+                $pageData = $this->linePage($sql, $pagesize, $prev, $next);
+                $sql = preg_replace('/(?<=SELECT).*?(?=FROM)/is', ' count(*) as total ', $sql, 1);;
+                $info = $this->findSql($sql);
+                $total = $info[0]['total'];
+                $page = library('SpPage');
+                $page->set_config($total, $pagesize);
+                $html = $page->show();
+                $pageData['html'] = $html;
+        }elseif($page){
+                $pageData = $this->webPage($sql, $pagesize, $page);
+        }else{
+                $pageData = $this->linePage($sql, $pagesize, $prev, $next);
+        }
+        return $pageData;
 	}
 
+
+    #分页查找
+    public function linePage($sql, $count = 20, $prev_id = null, $next_id = null){
+            $line_page = library('SpLinePage');
+            if(empty($prev_id) && empty($next_id)){
+                    $next_id = isset($_POST['next'])?$_POST['next']:0;
+                    if(empty($next_id))
+                            $prev_id = isset($_POST['prev'])?$_POST['prev']:0;
+            }
+            if(isset($_POST['count'])) $count = (int)$_POST['count'];
+            return $line_page->get($sql, $count, $prev_id, $next_id, array($this, 'findSql'));
+    }
+
 	#sql语句查找
-	public function findPageBySql($sql, $page, $pagesize = 20){
+	public function webPage($sql, $pagesize = 20, $page = null){
 		$result = array();
 		if(!is_numeric($page)) $page = $_GET[spConfig("var_page")]?$_GET[spConfig("var_page")] : 1;
 		$result['data'] = $this->spPager($page, $pagesize)->findSql($sql);
@@ -624,9 +649,8 @@ class spPager {
 	 * @param $class 分页的css类
 	 */
 	function getPagerStr($pagesize, $url="",$class="", $str=""){
-		require_once  spConfig('library_path').'SpPage.class.php';
-		$page =	new SpPage($this->pageData['total_count'], $pagesize);
-		return $page->show();
+        library('SpPage')->set_config($this->pageData['total_count'], $pagesize);
+		return library('SpPage')->show();
 	}
 }
 

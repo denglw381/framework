@@ -74,21 +74,9 @@ class BergenPage
      */
 
     // 分页显示定制
-    var $config = [];
-     
-    var $url = "";
+    protected $config   =   array('header'=>'条记录','prev'=>'上一页','next'=>'下一页','first'=>'第一页','last'=>'最后一页');
 
-
-    public function __construct(){
-         $this->config = [
-                'header'=> L('header'),
-                'prev' => L('prev'),
-                'next'=> L('next'),
-                'first'=> L('first'),
-                'last'=> L('last'),
-                'total'=> L('total')
-         ];
-    }
+    protected $url = "";
 
     /**
      +----------------------------------------------------------
