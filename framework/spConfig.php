@@ -8,7 +8,15 @@ return array(
 		'sp_core_path' => SP_PATH.'/Core', // 框架MVC核心目录
 		'sp_drivers_path' => SP_PATH.'/Drivers', // 框架各类驱动文件目录
 		'sp_include_path' => array( SP_PATH.'/Extensions' ), // 框架扩展功能载入路径
-		'launch' => array(), // 自动执行点的根节点
+
+        'launch' => array( 
+                'router_prefilter' => array( 
+                        array('spUrlRewrite', 'setReWrite'), 
+                        ),
+                'function_url' => array(
+                        array("spUrlRewrite", "getReWrite"),
+                        ),
+        ),
 
 		'auto_load_controller' => array('spArgs'), // 控制器自动加载的扩展类名
 		'auto_load_model' => array('spPager','spVerifier','spCache','spLinker'), // 模型自动加载的扩展类名
@@ -86,7 +94,25 @@ return array(
 
 		'lang' => array(), // 多语言设置，键是每种语言的名称，而值可以是default（默认语言），语言文件地址或者是翻译函数
 		// 同时请注意，在使用语言文件并且文件中存在中文等时，请将文件设置成UTF8编码
-		'ext' => array(), // 扩展使用的配置根目录
+
+		'ext' => array( // 扩展使用的配置根目录
+                        'spUrlRewrite' => array(
+                                'suffix' => '.html', // 生成地址的结尾符，网址后缀
+                                'sep' => '/', // 网址参数分隔符，建议是“-_/”之一
+                                'map' => array( // 网址映射，比如 'search' => 'main@search'，
+                                        // 将使得 http://www.example.com/search.html 转向控制器main/动作serach执行
+                                        // 特例 '@' => 'main@no' 如果映射是@，将使得符合以下条件的网址转向到 控制器main/动作no执行：
+                                        // 1. 在map中无法找到其他映射，2. 网址第一个参数并非控制器名称。			
+                                        ),
+                                'args' => array( // 网址映射附加的隐藏参数，如果针对某个网址映射设置了隐藏参数，则在网址中仅会存在参数值，而参数名称被隐藏。
+                                        // 比如 'search' => array('q','page'), 那么生成的网址将会是：
+                                        // http://www.example.com/search-thekey-2.html
+                                        // 配合map映射'search' => 'main@search'，这个网址将会执行 控制器main/动作serach，
+                                        // 而参数q将等于thekey，参数page将等于2
+                                        ),
+                                ),
+         ),
+
 
 		'include_path' => array(
 				APP_PATH.'/include',

@@ -174,7 +174,7 @@ function spError($msg, $output = TRUE, $stop = TRUE){
  * @param return    是否存在返回数据，如需要返回，则该扩展点仅能有一个扩展操作
  */
 function spLaunch($configname, $launchargs = null, $returns = FALSE ){
-	if( "" == spConfig('launch.'.$configname) && is_array(spConfig('launch.'.$configname))){
+	if( "" != spConfig('launch.'.$configname) && is_array(spConfig('launch.'.$configname))){
 		foreach( spConfig('launch.'.$configname) as $launch ){
 			if( is_array($launch) ){
 				$reval = spClass($launch[0])->{$launch[1]}($launchargs);
@@ -440,16 +440,6 @@ function spErrorHandler($errno, $errstr, $errfile, $errline)
                         break;
         }
         return true;
-}
-
-function syncId($syncId = NULL){
-        $uid = $_SESSION['mid'];
-        if(empty($uid)) return '';
-        if($syncId){
-                return model('User')->setSyncId($uid, $syncId);
-        }
-        $syncId = model('User')->getSyncId($uid);
-        return empty($syncId)?'':(int)$syncId;
 }
 
 //业务公共函数库

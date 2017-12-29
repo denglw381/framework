@@ -131,6 +131,9 @@ spl_autoload_register(
     function($classname){
         if(strtolower(substr($classname, -10)) == 'controller'){
                 include APP_CONTROLLER_PATH.DS.$classname.'.php'; 
+        }else{
+                $path = SP_PATH.'/Extensions/'.$classname.'.php';
+                if(is_file($path)) require $path; 
         }
     }
 );
