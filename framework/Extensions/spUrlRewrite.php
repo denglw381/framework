@@ -76,6 +76,7 @@ class spUrlRewrite
 	 */
 	public function setReWrite()
 	{
+var_dump('aaaaaaaaaaaaa');
 		GLOBAL $__controller, $__action;
 		if(isset($_SERVER['HTTP_X_REWRITE_URL']))$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
 		// $request = ltrim(strtolower(substr($_SERVER["REQUEST_URI"], strlen(dirname(spConfig(['url']['url_path_base'])))),"\/\\");

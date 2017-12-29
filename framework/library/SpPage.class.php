@@ -124,7 +124,7 @@ class SpPage
      *分页显示程序 
      */
     public function show($isArray=false){
-            if(0 == $this->totalRows) return;
+            if(0 == $this->totalRows) return '';
             $this->getUrl();
             $linkPage = $this->getLinkPage();
             if($this->totalPages <= 1) return '';

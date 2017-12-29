@@ -53,7 +53,7 @@ return array(
 				'prefix' => '',           // 表前缀
 				'persistent' => FALSE,    // 是否使用长链接
 				'charset' => 'UTF8',
-				),
+	    ),
 
 		'db_driver_path' => '', // 自定义数据库驱动文件地址
 		'db_spdb_full_tblname' => TRUE, // spDB是否使用表全名
@@ -90,7 +90,7 @@ return array(
 
 		'include_path' => array(
 				APP_PATH.'/include',
-				), // 用户程序扩展类载入路径
+	    ), // 用户程序扩展类载入路径
 
 		'log_type' => 3,
 		'log_file_size' => 2*1024*1024*1024,
@@ -100,4 +100,4 @@ return array(
 		'log_path' => APP_APPLICATION_PATH.DS.'..'.DS.'logs'.DS,
         'var_page'=> 'p',
         'cookie' => ['expire_time'=>24*3600]
-		);
+	);
