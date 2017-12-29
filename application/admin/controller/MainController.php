@@ -2,8 +2,7 @@
 require_once dirname(__FILE__).DS.'BaseController.php';
 class MainController extends BaseController{
 	function indexAction(){
-        $this->jump(spUrl('admin/music/online'));
-		//$this->display("right.php");
+		$this->display();
 	}
 
 	function topAction(){
@@ -15,7 +14,7 @@ class MainController extends BaseController{
 			}
 		}
 		$this->assign('topLanmus', $topLanmus);
-		$this->display("top.php");
+		$this->display();
 	}
 
 	function leftAction(){
@@ -23,9 +22,11 @@ class MainController extends BaseController{
 		$this->assign('datas', $datas);
 		$this->display("left.php");
 	}
+
 	function rightAction(){
 		$this->display("right.php");
 	}
+
 	function untitledAction(){
 	}
 
@@ -35,7 +36,7 @@ class MainController extends BaseController{
 	}
 
 	function doLoginAction(){
-		if($this->mid) $this->jump(spUrl('protected/main','index'));
+		if($this->mid) $this->jump(spurl('admin/main/index'));
 		$uname = $this->spArgs('uname');	
 		$passwd = $this->spArgs('passwd');
 		$result = service('User')->login($uname, $passwd);
@@ -46,7 +47,7 @@ class MainController extends BaseController{
 
 	function loginOutAction(){
 		service('User')->loginOut();
-		$this->jump(spUrl('admin/main/login'));
+		$this->jump(spurl('admin/main/login'));
 	}
 
 	function changePwdAction(){

@@ -1,6 +1,6 @@
 <?php
 class UserModel extends spModel{
-	var $pk="uid";
+	var $pk="userid";
 	var $table="user";
 
 	var $r = 0;
@@ -63,12 +63,11 @@ class UserModel extends spModel{
 
 	}
 
-
 	/** 
 	 * 登录操作 
 	 */
 	function login($uname,$passwd){
-		//$this->updataAUser(array("uname"=>$uname),array("passwd"=>$passwd));
+	//	$this->updataAUser(array("uname"=>$uname),array("passwd"=>$passwd));
 		$max_login_wrong_times = spConfig('user.max_login_wrong_times');
 		$login_wrong_forbid_time = spConfig('user.login_wrong_forbid_time');
 		$userInfo = $this->getUserInfo($uname , "uname"); 
@@ -97,9 +96,9 @@ class UserModel extends spModel{
 				return array("-4", array('对不起，您的登陆失败次数过多，请于'.friendlyLeftTime($login_wrong_forbid_time).'后再登陆'));
 		}
 		$this->updateField(array('uname'=>$uname), 'fails', 0);
-		$_SESSION['mid'] = $userInfo["uid"];
+		$_SESSION['mid'] = $userInfo["userid"];
 		setcookie('mid', library('spEncript')->encrypt($_SESSION['mid']), time()+spConfig('cookie.expire_time'), '/');
-		return array(0, $userInfo['uid']);
+		return array(0, $userInfo['userid']);
 	}
 
     function getLoginUid(){
@@ -111,7 +110,7 @@ class UserModel extends spModel{
 	/** 
 	 * 获取用户信息 
 	 */
-	function getUserInfo($value,$field="uid"){
+	function getUserInfo($value,$field="userid"){
 		$info =  $this->find([$field=>$value]);	
         return $info;
 	}
@@ -134,21 +133,21 @@ class UserModel extends spModel{
 		return $result;
 	}
 
-	function setSyncId($uid, $syncId){
-		return $this->updateField(array('uid'=>$uid), 'sync_id', $syncId);
+	function setSyncId($userid, $syncId){
+		return $this->updateField(array('userid'=>$userid), 'sync_id', $syncId);
 	}
 
-	function getSyncId($uid){
-		return $this->getField('sync_id', array('uid'=>$uid));	
+	function getSyncId($userid){
+		return $this->getField('sync_id', array('userid'=>$userid));	
 	}
 
-	function isAdmin($uid){
-		$userInfo = $this->getField('role', 'uid = '.$uid);
+	function isAdmin($userid){
+		$userInfo = $this->getField('role', 'userid = '.$userid);
 		return $userInfo['role'] == 1 ? true : false;
 	}
 
-	function getCids($uid){
-		return $this->getField('cids', 'uid = '.$uid);
+	function getCids($userid){
+		return $this->getField('cids', 'userid = '.$userid);
 	}
 }
 

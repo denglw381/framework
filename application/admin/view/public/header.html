@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>文件上线管理系统</title>
+<title>后台管理系统</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes" />    
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -22,11 +22,11 @@
     <td align="center" style="background:url(/static/images/top_bg.jpg) no-repeat"><table cellspacing="0" cellpadding="0" border="0" width="100%" height="33">
       <tbody>
         <tr>
-          <td width="30" align="left"><img height="15" alt="关闭左边管理菜单" src="/static/images/on-of.gif" width="15" border="0" /></td>
+      <td width="30" align="left"><img height="15" alt="关闭左边管理菜单" src="/static/images/on-of.gif" width="15" border="0" /></td>
 	  <td width="320" align="left">
 		<a class="top_link" href="javascript:;" >您好！{$userInfo.uname}</a><span class="top_link">┆</span> 
 {*		<a class="top_link" href="{spurl r='admin/main/changePwd'}" >修改密码</a><span class="top_link">┆</span> *}
-		<a class="top_link" href="{spurl r='main/index'}" >查看前台</a><span class="top_link">┆</span> 
+		<a class="top_link" href="{spurl r='protected/main/index'}" >查看前台</a><span class="top_link">┆</span> 
 		<a class="top_link" id="loginOut" href="{spurl r='admin/main/loginOut'}">退出登录</a>
 	 </td>
           <td width="80" align="right" nowrap="nowrap" class="topbar">  </td>
