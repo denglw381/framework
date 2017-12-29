@@ -9,7 +9,9 @@ function spRun(){
 	// 对将要访问的控制器类进行实例化
 	$__controller	= ucfirst($__controller).'Controller';
 	$__action	= ucfirst($__action).'Action';
-	$handle_controller = spClass($__controller, null, spConfig("controller_path").'/'.$__controller.".php");
+    $controller_path = APP_APPLICATION_PATH.DS.$__module.DS.'controller';
+	$handle_controller = spClass($__controller, null, $controller_path.'/'.$__controller.".php");
+var_dump($handle_controller);
 	// 调用控制器出错将调用路由错误处理函数
 	if(!is_object($handle_controller) || !method_exists($handle_controller, $__action)){
 		eval(spConfig("dispatcher_error"));
@@ -497,9 +499,9 @@ function spUrl_2($controller = null, $args = null, $anchor = null, $no_sphtml = 
         $controller = ( null != $controller ) ? $controller : spConfig("default_controller");
         $action = ( null != $action ) ? $action : spConfig("default_action");
         // 使用扩展点
-        if( $launch = spLaunch("function_url", array('controller'=>$controller, 'action'=>$action, 'args'=>$args, 'anchor'=>$anchor, 'no_sphtml'=>$no_sphtml), TRUE ))return $launch;
+        if( $launch = spLaunch("function_url", array('module'=>$module, 'controller'=>$controller, 'action'=>$action, 'args'=>$args, 'anchor'=>$anchor, 'no_sphtml'=>$no_sphtml), TRUE ))return $launch;
         if( TRUE == spConfig('url.url_path_info')){ // 使用path_info方式
-                $url = spConfig('url.url_path_base')."/{$controller}/{$action}";
+                $url = spConfig('url.url_path_base')."/{$module}/{$controller}/{$action}";
                 if(null != $args)foreach($args as $key => $arg) $url .= "/{$key}/{$arg}";
         }else{
                 $url = spConfig('url.url_path_base').'?';

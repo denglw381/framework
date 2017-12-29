@@ -15,7 +15,7 @@ class BaseController extends spController{
 	function checkRole(){
 		if($this->exludeCheckUser()) return;
 		if(empty($this->mid) or $this->userInfo['role']!=1){
-			$this->jump(spUrl('admin/main/login'));
+//			$this->jump(spUrl('admin/main/login'));
 		}
 	}
 

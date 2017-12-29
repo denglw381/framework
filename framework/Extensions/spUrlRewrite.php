@@ -68,7 +68,6 @@ class spUrlRewrite
 	 */
 	public function __construct()
 	{
-var_dump('aaaa');
 		$params = spExt('spUrlRewrite');
 		if(is_array($params))$this->params = array_merge($this->params, $params);
 	}	
@@ -77,7 +76,7 @@ var_dump('aaaa');
 	 */
 	public function setReWrite()
 	{
-		GLOBAL $__controller, $__action;
+		GLOBAL $__module, $__controller, $__action;
 		if(isset($_SERVER['HTTP_X_REWRITE_URL']))$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
 		// $request = ltrim(strtolower(substr($_SERVER["REQUEST_URI"], strlen(dirname(spConfig(['url']['url_path_base'])))),"\/\\");
 		$request = ltrim(substr($_SERVER["REQUEST_URI"], strlen(dirname(spConfig('url.url_path_base')))),"\/\\");
@@ -91,7 +90,6 @@ var_dump('aaaa');
 		$uri = array('first' => array_shift($request),'last' => ltrim(implode($request),'?'));
 		$request = explode($this->params['sep'], $uri['first']);
 		$uri['first'] = array('pattern' => array_shift($request),'args'  => $request);
-		
 		if( array_key_exists($uri['first']['pattern'], $this->params['map']) ){
 			@list($__controller, $__action) = explode('@',$this->params['map'][$uri['first']['pattern']]);
 			if( !empty($this->params['args'][$uri['first']['pattern']]) )foreach( $this->params['args'][$uri['first']['pattern']] as $v )spClass("spArgs")->set($v, array_shift($uri['first']['args']));
@@ -102,7 +100,10 @@ var_dump('aaaa');
 				foreach( $this->params['args']['@'] as $v )spClass("spArgs")->set($v, array_shift($uri['first']['args']));
 			}
 		}else{
-			$__controller = $uri['first']['pattern'];$__action = array_shift($uri['first']['args']);
+            $__module = $uri['first']['pattern'];
+			//$__controller = $uri['first']['pattern'];
+            $__controller = array_shift($uri['first']['args']);
+            $__action = array_shift($uri['first']['args']);
 			if( empty($__action) )$__action = spConfig('default_action');
 		}
 		if(!empty($uri['first']['args']))for($u = 0; $u < count($uri['first']['args']); $u++){
@@ -111,7 +112,7 @@ var_dump('aaaa');
 		if(!empty($uri['last'])){
 			$uri['last'] = explode('&',$uri['last']);
 			foreach( $uri['last'] as $val ){
-				@list($k, $v) = explode('=',$val);if(!empty($k))spClass("spArgs")->set($k,isset($v)?$v:"");}}
+				@list($k, $v) = explode('=',$val);if(!empty($k)) spClass("spArgs")->set($k,isset($v)?$v:"");}}
 	}
 
 
@@ -139,7 +140,7 @@ var_dump('aaaa');
 				}
 			}
 		}else{
-			$uri .= $urlargs['controller'];
+			$uri .= $urlargs['module'].$this->params['sep'].$urlargs['controller'];
 			if( !empty($urlargs['args']) || (!empty($urlargs['action']) && $urlargs['action'] != spConfig("default_action")) )$uri .= $this->params['sep'].$urlargs['action'];
 		}
 		if( !empty($urlargs['args']) ){

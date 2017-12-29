@@ -98,7 +98,7 @@ return array(
 		'ext' => array( // 扩展使用的配置根目录
                         'spUrlRewrite' => array(
                                 'suffix' => '.html', // 生成地址的结尾符，网址后缀
-                                'sep' => '/', // 网址参数分隔符，建议是“-_/”之一
+                                'sep' => '_', // 网址参数分隔符，建议是“-_/”之一
                                 'map' => array( // 网址映射，比如 'search' => 'main@search'，
                                         // 将使得 http://www.example.com/search.html 转向控制器main/动作serach执行
                                         // 特例 '@' => 'main@no' 如果映射是@，将使得符合以下条件的网址转向到 控制器main/动作no执行：

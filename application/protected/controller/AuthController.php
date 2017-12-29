@@ -9,7 +9,7 @@ class AuthController extends BaseController
 	#获取主记录总数
 	function saveAction(){
             //__log($this->post);
-            echo 'aaaa';
+            echo 'aaaaaabbb';
 	}
 
     function codeAction(){
