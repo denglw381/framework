@@ -126,12 +126,13 @@ class spController {
 	 */
 	public function display($tplname = '', $output = TRUE)
 	{
+        global $__module;
         if(empty($tplname)) $tplname = strtolower(spConfig(spConfig('url_action'))).spConfig('view.auto_display_suffix');
 		@ob_start();
 		$className = get_class($this);
 		$dir = strtolower(substr($className,0,strlen($className)-strlen('Controller')));
 		if(TRUE == spConfig('view.enabled')){	
-			$this->v->display($dir.DIRECTORY_SEPARATOR.$tplname);
+			$this->v->display($__module.DS.$dir.DIRECTORY_SEPARATOR.$tplname);
 		}else{
 			extract($this->__template_vals);
 			require($dir.DIRECTORY_SEPARATOR.$tplname);

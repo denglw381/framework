@@ -69,7 +69,7 @@ return array(
 		'view' => array( // 视图配置
 				'enabled' => TRUE, // 开启视图
 				'config' =>array(
-					'template_dir' => APP_PATH.DS.'view'.DS, // 模板目录
+					'template_dir' => VIEW_PATH.DS, //APP_PATH.DS.'view'.DS, // 模板目录
 					'compile_dir' => RUNTIME_PATH.DS.'templates_c'.DS, // 编译目录
 					'cache_dir' => RUNTIME_PATH.DS.'cache'.DS, // 缓存目录
 					'left_delimiter' => '{',  // smarty左限定符
@@ -98,7 +98,7 @@ return array(
 		'ext' => array( // 扩展使用的配置根目录
                         'spUrlRewrite' => array(
                                 'suffix' => '.html', // 生成地址的结尾符，网址后缀
-                                'sep' => '_', // 网址参数分隔符，建议是“-_/”之一
+                                'sep' => '/', // 网址参数分隔符，建议是“-_/”之一
                                 'map' => array( // 网址映射，比如 'search' => 'main@search'，
                                         // 将使得 http://www.example.com/search.html 转向控制器main/动作serach执行
                                         // 特例 '@' => 'main@no' 如果映射是@，将使得符合以下条件的网址转向到 控制器main/动作no执行：

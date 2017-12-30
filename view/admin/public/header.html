@@ -38,7 +38,7 @@
       <tbody>
         <tr align="middle">
 	{foreach $topLanmus as $lanmu}
-          <td width="71" height="26" align="center" valign="middle" background="static/images/top_tt_bg.gif"><a href="{'admin/main'|spUrl:'left'}&id={$lanmu.id}"  class="STYLE2">{$lanmu.name}</a></td>
+          <td width="71" height="26" align="center" valign="middle" background="static/images/top_tt_bg.gif"><a href="{spurl r='admin/main/left' id=$lanmu.id}"  class="STYLE2">{$lanmu.name}</a></td>
 	  {if $lanmu@last}<td align="center" class="topbar"><span class="STYLE2"> </span></td>{/if}
 	{/foreach}
 	</tr>
@@ -80,7 +80,7 @@ border=0 align=right cellPadding=0 cellSpacing=0 class=leftframetable>
                 </TR>
                 <TR>
                   <TD width="2%"><IMG src="/static/images/closed.gif"></TD>
-                  <TD height="23"><A href="{'admin/hosts'|spUrl:'cateList'}">项目管理</A></TD>
+                  <TD height="23"><A href="{spurl r='admin/hosts/cateList'}">项目管理</A></TD>
                 </TR>
                 <TR>
                   <TD width="2%"><IMG src="/static/images/closed.gif"></TD>

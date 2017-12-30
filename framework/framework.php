@@ -20,10 +20,10 @@ spConfig(array(
 
 $__module	= isset($_REQUEST[spConfig('url_module')])?$_REQUEST[spConfig('url_module')]:spConfig('default_module');
 
-define("APP_PATH", APP_APPLICATION_PATH.DS.$__module);
+//define("APP_PATH", APP_APPLICATION_PATH.DS.$__module);
 // 定义系统路径
-if(!defined('SP_PATH')) define('SP_PATH', dirname(__FILE__).'/framework');
-if(!defined('APP_PATH')) define('APP_PATH', dirname(__FILE__).'/appication');
+if(!defined('SP_PATH')) define('SP_PATH', dirname(__FILE__).'/../framework');
+if(!defined('APP_PATH')) define('APP_PATH', dirname(__FILE__).'/../application');
 
 define("APP_MODEL",			    SP_PATH.DS."model");
 define("APP_CONF",			    APP_PATH.DS."config");
@@ -35,6 +35,7 @@ define("MODEL_PATH",			PROTECTED_PATH.DS."model");
 define("SERVICE_PATH",			PROTECTED_PATH.DS."service");
 define("UPLOAD_PATH",			PROTECTED_PATH.DS."uploads");
 define("CONFIG_PATH",			PROTECTED_PATH.DS."config");
+define("VIEW_PATH",			    PROTECTED_PATH.DS."view");
 
 
 // 载入配置文件
@@ -49,11 +50,7 @@ if('debug' == spConfig('mode')){
 }
 // 如果是调试模式，打开警告输出
 if (SP_DEBUG) {
-	if( substr(PHP_VERSION, 0, 3) == "5.3" ){
-        	error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_DEPRECATED);
-	}else{
-        	error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-	}
+  	error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_DEPRECATED);
 } else {
 	error_reporting(0);
 }

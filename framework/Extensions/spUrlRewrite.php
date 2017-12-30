@@ -93,7 +93,7 @@ class spUrlRewrite
 		if( array_key_exists($uri['first']['pattern'], $this->params['map']) ){
 			@list($__controller, $__action) = explode('@',$this->params['map'][$uri['first']['pattern']]);
 			if( !empty($this->params['args'][$uri['first']['pattern']]) )foreach( $this->params['args'][$uri['first']['pattern']] as $v )spClass("spArgs")->set($v, array_shift($uri['first']['args']));
-		}elseif( isset($this->params['map']['@']) && !in_array($uri['first']['pattern'].'.php', array_map('strtolower',scandir(spConfig('controller_path')))) ){
+		}elseif( isset($this->params['map']['@']) && !in_array($uri['first']['pattern'].'.php', array_map('strtolower', APP_APPLICATION_PATH.DS.$__module.DS.'controller'))){//  scandir(spConfig('controller_path')))) ){
 			@list($__controller, $__action) = explode('@',$this->params['map']['@']);
 			if( !empty($this->params['args']['@']) ){
 				$uri['first']['args'] = array_merge(array($uri['first']['pattern']), $uri['first']['args']);
@@ -101,7 +101,6 @@ class spUrlRewrite
 			}
 		}else{
             $__module = $uri['first']['pattern'];
-			//$__controller = $uri['first']['pattern'];
             $__controller = array_shift($uri['first']['args']);
             $__action = array_shift($uri['first']['args']);
 			if( empty($__action) )$__action = spConfig('default_action');

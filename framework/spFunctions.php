@@ -9,9 +9,8 @@ function spRun(){
 	// 对将要访问的控制器类进行实例化
 	$__controller	= ucfirst($__controller).'Controller';
 	$__action	= ucfirst($__action).'Action';
-    $controller_path = APP_APPLICATION_PATH.DS.$__module.DS.'controller';
+    $controller_path = APP_PATH.DS.$__module.DS.'controller';
 	$handle_controller = spClass($__controller, null, $controller_path.'/'.$__controller.".php");
-var_dump($handle_controller);
 	// 调用控制器出错将调用路由错误处理函数
 	if(!is_object($handle_controller) || !method_exists($handle_controller, $__action)){
 		eval(spConfig("dispatcher_error"));
