@@ -127,7 +127,7 @@ if(file_exists(APP_FUN.DS.'function.php')) require_once APP_FUN.DS.'function.php
 spl_autoload_register(
     function($classname){
         if(strtolower(substr($classname, -10)) == 'controller'){
-                include APP_CONTROLLER_PATH.DS.$classname.'.php'; 
+                include APP_PATH.DS.spConfig(spConfig('url_module')).DS.'controller'.DS.$classname.'.php'; 
         }else{
                 $path = SP_PATH.'/Extensions/'.$classname.'.php';
                 if(is_file($path)) require $path; 
