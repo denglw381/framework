@@ -104,6 +104,7 @@ class spUrlRewrite
             $__controller = array_shift($uri['first']['args']);
             $__action = array_shift($uri['first']['args']);
 			if( empty($__action) )$__action = spConfig('default_action');
+var_dump($__action);
 		}
 		if(!empty($uri['first']['args']))for($u = 0; $u < count($uri['first']['args']); $u++){
 			spClass("spArgs")->set($uri['first']['args'][$u], isset($uri['first']['args'][$u+1])?$uri['first']['args'][$u+1]:"");

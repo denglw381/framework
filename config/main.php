@@ -2,7 +2,7 @@
 return array(
     'auto_model' => false,
     'db_driver_path' => SP_PATH.'/Drivers/pdo.php',
-    'static_url' => '//w1.wantme.cn/static', 
+    'static_url' => '//ms.wantme.cn', 
     'upload_path' => __DIR__.'/../webroot/static/upload',
     'upload_url' => 'http://w1.wantme.cn/static/upload',
     'user' => [
