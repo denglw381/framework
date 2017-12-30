@@ -74,49 +74,51 @@ class spUrlRewrite
 	/**
 	 * 在控制器/动作执行前，对路由进行改装，使其可以解析URL_WRITE的地址
 	 */
-	public function setReWrite()
-	{
-		GLOBAL $__module, $__controller, $__action;
-		if(isset($_SERVER['HTTP_X_REWRITE_URL']))$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
-		// $request = ltrim(strtolower(substr($_SERVER["REQUEST_URI"], strlen(dirname(spConfig(['url']['url_path_base'])))),"\/\\");
-		$request = ltrim(substr($_SERVER["REQUEST_URI"], strlen(dirname(spConfig('url.url_path_base')))),"\/\\");
-		if( '?' == substr($request, 0, 1) or 'index.php?' == substr($request, 0, 10) )return ;
-		if( empty($request) or 'index.php' == $request ){
-			$__controller = spConfig('default_controller');
-			$__action = spConfig('default_action');
-			return ;
-		}
-		$request = explode((( '' == $this->params['suffix'] )?'?':$this->params['suffix']), $request, 2);
-		$uri = array('first' => array_shift($request),'last' => ltrim(implode($request),'?'));
-		$request = explode($this->params['sep'], $uri['first']);
-		$uri['first'] = array('pattern' => array_shift($request),'args'  => $request);
-		if( array_key_exists($uri['first']['pattern'], $this->params['map']) ){
-			@list($__controller, $__action) = explode('@',$this->params['map'][$uri['first']['pattern']]);
-			if( !empty($this->params['args'][$uri['first']['pattern']]) )foreach( $this->params['args'][$uri['first']['pattern']] as $v )spClass("spArgs")->set($v, array_shift($uri['first']['args']));
-		}elseif( isset($this->params['map']['@']) && !in_array($uri['first']['pattern'].'.php', array_map('strtolower', APP_APPLICATION_PATH.DS.$__module.DS.'controller'))){//  scandir(spConfig('controller_path')))) ){
-			@list($__controller, $__action) = explode('@',$this->params['map']['@']);
-			if( !empty($this->params['args']['@']) ){
-				$uri['first']['args'] = array_merge(array($uri['first']['pattern']), $uri['first']['args']);
-				foreach( $this->params['args']['@'] as $v )spClass("spArgs")->set($v, array_shift($uri['first']['args']));
-			}
-		}else{
-            $__module = $uri['first']['pattern'];
-            $__controller = array_shift($uri['first']['args']);
-            $__action = array_shift($uri['first']['args']);
-			if( empty($__action) )$__action = spConfig('default_action');
-		}
-		if(!empty($uri['first']['args']))for($u = 0; $u < count($uri['first']['args']); $u++){
-			spClass("spArgs")->set($uri['first']['args'][$u], isset($uri['first']['args'][$u+1])?$uri['first']['args'][$u+1]:"");
-			$u+=1;}
-		if(!empty($uri['last'])){
-			$uri['last'] = explode('&',$uri['last']);
-			foreach( $uri['last'] as $val ){
-				@list($k, $v) = explode('=',$val);if(!empty($k)) spClass("spArgs")->set($k,isset($v)?$v:"");}}
-
-         spConfig(spConfig('url_module'), $__module);
-         spConfig(spConfig('url_controller'), $__controller);
-         spConfig(spConfig('url_action'), $__action);
-	}
+    public function setReWrite()
+    {
+            GLOBAL $__module, $__controller, $__action;
+            if(isset($_SERVER['HTTP_X_REWRITE_URL']))$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
+            // $request = ltrim(strtolower(substr($_SERVER["REQUEST_URI"], strlen(dirname(spConfig(['url']['url_path_base'])))),"\/\\");
+            $request = ltrim(substr($_SERVER["REQUEST_URI"], strlen(dirname(spConfig('url.url_path_base')))),"\/\\");
+            if( '?' == substr($request, 0, 1) or 'index.php?' == substr($request, 0, 10) )return ;
+            if( empty($request) or 'index.php' == $request ){
+                    $__module = spConfig('default_module');
+                    $__controller = spConfig('default_controller');
+                    $__action = spConfig('default_action');
+            }else{
+                    $request = explode((( '' == $this->params['suffix'] )?'?':$this->params['suffix']), $request, 2);
+                    $uri = array('first' => array_shift($request),'last' => ltrim(implode($request),'?'));
+                    $request = explode($this->params['sep'], $uri['first']);
+                    $uri['first'] = array('pattern' => array_shift($request),'args'  => $request);
+                    if( array_key_exists($uri['first']['pattern'], $this->params['map']) ){
+                            @list($__controller, $__action) = explode('@',$this->params['map'][$uri['first']['pattern']]);
+                            if( !empty($this->params['args'][$uri['first']['pattern']]) )foreach( $this->params['args'][$uri['first']['pattern']] as $v )spClass("spArgs")->set($v, array_shift($uri['first']['args']));
+                    }elseif( isset($this->params['map']['@']) && !in_array($uri['first']['pattern'].'.php', array_map('strtolower', APP_APPLICATION_PATH.DS.$__module.DS.'controller'))){//  scandir(spConfig('controller_path')))) ){
+                            @list($__controller, $__action) = explode('@',$this->params['map']['@']);
+                            if( !empty($this->params['args']['@']) ){
+                                    $uri['first']['args'] = array_merge(array($uri['first']['pattern']), $uri['first']['args']);
+                                    foreach( $this->params['args']['@'] as $v )spClass("spArgs")->set($v, array_shift($uri['first']['args']));
+                            }
+                    }else{
+                            $__module = $uri['first']['pattern'];
+                            $__controller = array_shift($uri['first']['args']);
+                            $__action = array_shift($uri['first']['args']);
+                            if( empty($__module) )$__module = spConfig('default_module');
+                            if( empty($__controller) )$__controller = spConfig('default_controller');
+                            if( empty($__action) )$__action = spConfig('default_action');
+                    }
+                    if(!empty($uri['first']['args']))for($u = 0; $u < count($uri['first']['args']); $u++){
+                            spClass("spArgs")->set($uri['first']['args'][$u], isset($uri['first']['args'][$u+1])?$uri['first']['args'][$u+1]:"");
+                            $u+=1;}
+                    if(!empty($uri['last'])){
+                            $uri['last'] = explode('&',$uri['last']);
+                            foreach( $uri['last'] as $val ){
+                                    @list($k, $v) = explode('=',$val);if(!empty($k)) spClass("spArgs")->set($k,isset($v)?$v:"");}}
+              }
+              spConfig(spConfig('url_module'), $__module);
+              spConfig(spConfig('url_controller'), $__controller);
+              spConfig(spConfig('url_action'), $__action);
+    }
 
 
 	/**
