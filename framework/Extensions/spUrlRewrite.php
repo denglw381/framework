@@ -104,7 +104,6 @@ class spUrlRewrite
             $__controller = array_shift($uri['first']['args']);
             $__action = array_shift($uri['first']['args']);
 			if( empty($__action) )$__action = spConfig('default_action');
-var_dump($__action);
 		}
 		if(!empty($uri['first']['args']))for($u = 0; $u < count($uri['first']['args']); $u++){
 			spClass("spArgs")->set($uri['first']['args'][$u], isset($uri['first']['args'][$u+1])?$uri['first']['args'][$u+1]:"");
@@ -113,6 +112,10 @@ var_dump($__action);
 			$uri['last'] = explode('&',$uri['last']);
 			foreach( $uri['last'] as $val ){
 				@list($k, $v) = explode('=',$val);if(!empty($k)) spClass("spArgs")->set($k,isset($v)?$v:"");}}
+
+         spConfig(spConfig('url_module'), $__module);
+         spConfig(spConfig('url_controller'), $__controller);
+         spConfig(spConfig('url_action'), $__action);
 	}
 
 
@@ -125,7 +128,7 @@ var_dump($__action);
 	{
 		$uri = trim(dirname(spConfig('url.url_path_base')),"\/\\");
 		if( empty($uri) ){$uri = '/';}else{$uri = '/'.$uri.'/';}
-		if( spConfig("default_controller") == $urlargs['controller'] && spConfig("default_action") == $urlargs['action'] && empty($urlargs['args']) ){
+		if( spConfig("default_module") ==$urlargs['module']  && spConfig("default_controller") == $urlargs['controller'] && spConfig("default_action") == $urlargs['action'] && empty($urlargs['args']) ){
 			return $uri.((null != $urlargs['anchor']) ? "#{$anchor}" : '');
 		}elseif( $k = array_search(strtolower($urlargs['controller'].'@'.$urlargs['action']), array_map('strtolower',$this->params['map']))){
 			$uri .= ('@'==$k)?'':$k;$isfirstmark = ('@'==$k);
