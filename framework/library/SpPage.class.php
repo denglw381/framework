@@ -150,10 +150,29 @@ class SpPage
             return $pageStr;
     }
 
+
+    /**
+     *获取网页地址,new新版
+     */
+    private function  getUrl(){
+            if($_SERVER['QUERY_STRING']) parse_str($_SERVER['QUERY_STRING'], $parameter);
+            $parameter = (array)$parameter;
+            $url = array_shift($parameter);
+            if($parameter && is_array($parameter)) $this->parameter = array_merge($parameter, $this->parameter);
+            if($this->parameter) $parameter = http_build_query($this->parameter);
+            $parameter    =   preg_replace("/([&?]*)p=[0-9]+/",'',$parameter);
+            if(preg_match('/^p=[0-9]+/', $parameter)==0 && $parameter){
+                $url .= '?'.$parameter.'&';
+            }
+            $this->url = $url;
+    }
+
+
+
     /**
      *获取网页地址 
      */
-    private function  getUrl(){
+    private function  getUrl_old(){
             if($_SERVER['QUERY_STRING']) parse_str($_SERVER['QUERY_STRING'], $parameter);
             $parameter = (array)$parameter;
             if($parameter && is_array($parameter)) $this->parameter = array_merge($parameter, $this->parameter);
