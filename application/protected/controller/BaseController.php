@@ -57,6 +57,14 @@ class BaseController extends spController
             return TRUE;
     }
 
+    #需要认证
+    private function needAuth(){
+            $c = strtolower(spConfig(spConfig('url_controller')));
+            $a = strtolower(spConfig(spConfig('url_action')));
+            if(in_array($c.'/*', spConfig('no_auth')) || in_array($c.'/'.$a, spConfig('no_auth'))) return false;
+            return true;
+    }
+
 	/**
 	 *初始化用户信息
 	 */
@@ -107,4 +115,70 @@ class BaseController extends spController
             echo json_encode($result);
             exit();
     }
+
+
+    #获取用户数据
+    private function getUserInfo($needAuth = True){
+            $needUserInfo = $this->needUserInfo();
+            if($uid = spConfig('debug_uid')){
+                    $this->userInfo = model('User')->load($uid);
+            }else{
+                    $this->userInfo = model('User')->getCurrentUserInfo($needUserInfo, $needAuth);
+            }
+            $this->openid = strval($this->userInfo['openid']);
+            $this->uid  = intval($this->userInfo['uid']);
+            spLog::_info('dcuid', $this->uid);
+            if($this->uid) model('User')->update(array('uid'=>$this->uid), array('last_visit_time'=>time()));
+    }
+
+
+
+    #分发处理消息
+    private function dispatchMsg(){
+            $msg = file_get_contents('php://input');
+            $xml = simplexml_load_string($msg, null, LIBXML_NOCDATA);
+            if(empty($xml)) return false;
+            $data = (array)$xml;
+            if(empty($data)) return false;
+            $this->openid = $data['FromUserName']; //设置openid
+            $this->userInfo = model('User')->getUserInfo($this->openid);
+            $this->uid = $this->userInfo['uid'];
+            service('Msg')->handle($data);
+            return true;
+   }
+
+
+    #检查签名
+    function checkSignature()
+    {
+            $signature = $_GET["signature"];
+            $timestamp = $_GET["timestamp"];
+            $nonce = $_GET["nonce"];
+
+            $signature = $this->spArgs('signature');
+            $timestamp = $this->spArgs('timestamp');
+            $nonce = $this->spArgs('nonce');
+
+            $token = spConfig('weixin.Token');
+            $tmpArr = array($token, $timestamp, $nonce);
+            sort($tmpArr, SORT_STRING);
+            $tmpStr = implode( $tmpArr );
+            $tmpStr = sha1( $tmpStr );
+            if( $tmpStr == $signature ){
+                    return true;
+            }else{
+                    return false;
+            }
+    }
+
+
+
+   function getAccessToken(){
+            return model('Auth')->getAccessToken();
+   }
+
+
+   function getJsTicket(){
+            return model('Auth')->getJsTicket();
+   }
 }

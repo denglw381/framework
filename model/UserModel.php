@@ -149,6 +149,50 @@ class UserModel extends spModel{
 	function getCids($userid){
 		return $this->getField('cids', 'userid = '.$userid);
 	}
+
+
+    #needInfo 是否需要用户信息 needAuth 是否需要走微信认证
+    function getCurrentUserInfo($needInfo = true, $needAuth = true)
+    {
+        $userInfo = array();
+        if (strval($_POST['__openid']) && $this->getUserInfo($_POST['__openid'])) $this->currentUserOpenId($_POST['__openid']);
+        $openid = $this->currentUserOpenId();
+        if ($openid)
+            $userInfo = $this->find(array('openid' => $openid,'isdel'=>0));
+        if ($needAuth && (empty($userInfo) || (empty($userInfo['nickname']) && empty($userInfo['headimgurl'])))) {
+            $_SESSION['_current_url'] = getCurrentUrl();
+            if ($needInfo && (empty($userInfo['nickname']) && empty($userInfo['headimgurl']))) $scope = 'snsapi_userinfo'; //如果需要获取用户信息
+            else {
+                if ($userInfo) return $userInfo;
+                $scope = 'snsapi_base';
+            }
+            $redirect_uri = urlencode(spConfig('weixin.URL') . '/auth');
+            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
+            $url = str_replace(array('APPID', 'REDIRECT_URI', 'SCOPE', 'STATE'), array(spConfig('weixin.AppId'), $redirect_uri, $scope, 123), $url);
+            header('location:' . $url);
+        } else if ($openid)
+            return $this->getUserInfo($openid);
+        return array();
+    }
+
+    function currentUserOpenId($openid = '')
+    {
+#spLog::debug('___'.var_Export($openid, true));
+#spLog::debug($_SERVER['SERVER_NAME']);
+#spLog::debug($_COOKIE);
+#spLog::debug($_SESSION);
+        if ($openid) {
+            setcookie('__wx_openid', $openid, time() + spConfig('cookie.expire_time'), '/');
+            $_SESSION['__wx_openid'] = $openid;
+
+            return true;
+        } else {
+            if (($openid = $_SESSION['__wx_openid']) == false) {
+                $openid = $_COOKIE['__wx_openid'];
+            }
+            return $openid;
+        }
+    }
 }
 
 
