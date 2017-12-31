@@ -122,7 +122,6 @@ class UserModel extends spModel{
 		unset($_SESSION['mid']);
 		unset($_SESSION['userInfo']);
 		setcookie('mid', 0, time() - spConfig('cookie.expire_time'), '/');
-		setcookie('syncId', 0, time() - spConfig('cookie.expire_time'), '/');
 		session_destroy();
 	}
 
@@ -133,13 +132,6 @@ class UserModel extends spModel{
 		return $result;
 	}
 
-	function setSyncId($userid, $syncId){
-		return $this->updateField(array('userid'=>$userid), 'sync_id', $syncId);
-	}
-
-	function getSyncId($userid){
-		return $this->getField('sync_id', array('userid'=>$userid));	
-	}
 
 	function isAdmin($userid){
 		$userInfo = $this->getField('role', 'userid = '.$userid);
@@ -174,6 +166,7 @@ class UserModel extends spModel{
             return $this->getUserInfo($openid);
         return array();
     }
+
 
     function currentUserOpenId($openid = '')
     {

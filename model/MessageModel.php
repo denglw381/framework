@@ -7,11 +7,12 @@ class MessageModel{
         public function __construct(){
                 $this->config = spConfig('message_template');
         }
-#普通发消息，带重发机制
+
+        #普通发消息，带重发机制
         function send($data){
                 $ret = $this->__send($data);
                 if($ret == false){
-                        spDb('dc_message')->create(array('message'=>json_encode($data), 'times'=>1, 'status'=>0, 'ctime'=>time(), 'type'=>1, 'last_send_time'=>0));
+                        spDb('tbl_message')->create(array('message'=>json_encode($data), 'times'=>1, 'status'=>0, 'ctime'=>time(), 'type'=>1, 'last_send_time'=>0));
                 }
                 return $ret;
         }
@@ -38,22 +39,7 @@ class MessageModel{
 
         function __send_kf($data, $send = false){
                 if(false == $send){
-                        $result = spDb('dc_message')->create(array('message'=>json_encode($data, JSON_UNESCAPED_UNICODE), 'times'=>1, 'status'=>0, 'type'=>2, 'ctime'=>time(), 'last_send_time'=>0));
-                        return $result;
-                }else{
-                        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN';
-                        $url = str_replace('ACCESS_TOKEN', model('Auth')->getAccessToken(), $url);
-                        $curl = library('SpCurl');
-                        $result = json_decode($curl->resp_body($curl->post($url, $data)), true);
-                        if($result && 0 == $result["errcode"]) return true;
-                        return false;
-                }
-        }
-
-
-        function __send_kf($data, $send = false){
-                if(false == $send){
-                        $result = spDb('dc_message')->create(array('message'=>json_encode($data, JSON_UNESCAPED_UNICODE), 'times'=>1, 'status'=>0, 'type'=>2, 'ctime'=>time(), 'last_send_time'=>0));
+                        $result = spDb('tbl_message')->create(array('message'=>json_encode($data, JSON_UNESCAPED_UNICODE), 'times'=>1, 'status'=>0, 'type'=>2, 'ctime'=>time(), 'last_send_time'=>0));
                         return $result;
                 }else{
                         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN';
